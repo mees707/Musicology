@@ -1,2 +1,3 @@
 # Musicology
-For my corpus, i have chosen
+For my corpus, i have chosen my own spotify playlist called "Nobodylistenstotechno". This is a corpus of 218+ songs with multiple genres under which techno, hardtechno, early hardstyle, hardcore and industrial hardcore, which gives it a good variety in tempo, groove and release date. Some of the early hardstyle is from beginning 2000, while other, newer, techno tracks are released as recently as this year (2023). 
+The clear 4x4 beat pattern in techno must make this playlist very interesting to have a look at, since there is a clear feature in all tracks what they have in common, while also having loads of differences. This is also the reason why i chose this corpus.
