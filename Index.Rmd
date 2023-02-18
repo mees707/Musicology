@@ -4,29 +4,65 @@ output: html_document
 date: "2023-02-15"
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-```
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
 ```{r Libs}
 library(tidyverse)
 library(spotifyr) 
+library(ggplot2)
+library(hrbrthemes)
 ```
 
 ## Including Plots
 
-You can also embed plots, for example:
+assign my spotify playlist to a variable
 
 ```{r playlist, echo=FALSE}
-playlist <- get_playlist_audio_features('', '4iWAyRMMxjmpqCpYZsGek9')
+playlist <- get_playlist_audio_features('', '2EUygq17yMPzSbM6XTm4rs') 
 
-playlist
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+playlist$release <- as.Date(playlist$track.album.release_date, format = "%Y-%m-%d")
+
+```
+
+```{r}
+
+ggplot(playlist, aes(x=release, y=tempo)) +
+ geom_point()
+```
+
+a quick overview of the release date of the tracks in my playlist together with the tempo. One thing to note here is that the tempo of a lot of tracks is wrong. My guess is that spotify thinks the tempo is half of what it should actually be, since the tempo of tracks in my playlist should actually range between 140-200+.
+
+This together with some of the outliers made before 2015 makes the graph look messy. so i decided to remove every entry from before 2015
+
+```{r}
+specified_date <- as.Date("2015-01-01")
+playlist <- playlist[playlist$release >= specified_date,]
+
+ggplot(playlist, aes(x=release, y=tempo)) +
+ geom_point()
+```
+
+```{r}
+playlist <- playlist[complete.cases(playlist$tempo), ]
+playlist$tempo[playlist$tempo < 135] <- playlist$tempo[playlist$tempo < 135] * 2
+
+ggplot(playlist, aes(x=release, y=tempo)) +
+ geom_point() +
+ geom_smooth(method = "lm", color= 'red', se = FALSE)
+```
+
+Now that the wrong tempo cases are also adjusted to their actual tempo, the graph already looks a lot better, and something we can actually work with.
+
+One thing you can immediatly notice is the vast amount of dots at the 150, 155 and 160 range. These are 3 BPMs that are very popular along hardstyle, and therefore mostly used. Also notice the slight increase in tempo over the years. this is something that i woudve expected to see, the genre has getting faster, and the hardstyle being produced nowadays is more of the "raw" kind. While before 2020, it used to be way more medolic and focus less on the speed/hardness of the tracks.
+
+next up, lets look at some more interesting things, lets compare the energy of a track with the tempo of it, and lets throw danceability in there as well.
+
+```{r}
+ggplot(playlist, aes(x=energy, y=tempo, color=danceability)) +
+ geom_point() +
+  geom_smooth(method=exp , color="red", fill="#69b3a2", se=TRUE)
+```
+
+You can pretty clearly see the correlation between the energy of a track and the tempo of that track. most of the higher tempo's have a higher energy as well.
