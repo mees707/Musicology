@@ -1,0 +1,32 @@
+---
+title: "Index.Rmd"
+output: html_document
+date: "2023-02-15"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r Libs}
+library(tidyverse)
+library(spotifyr) 
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r playlist, echo=FALSE}
+playlist <- get_playlist_audio_features('', '4iWAyRMMxjmpqCpYZsGek9')
+
+playlist
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
