@@ -62,7 +62,7 @@ next up, lets look at some more interesting things, lets compare the energy of a
 ```{r}
 ggplot(playlist, aes(x=energy, y=tempo, color=danceability)) +
  geom_point() +
-  geom_smooth(method=exp , color="red", fill="#69b3a2", se=TRUE)
+  geom_smooth(method="lm", formula= (y ~ exp(2*x)), se=FALSE, color='red')
 ```
 
 You can pretty clearly see the correlation between the energy of a track and the tempo of that track. most of the higher tempo's have a higher energy as well.

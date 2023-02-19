@@ -7,3 +7,9 @@ One of the key differences in this playlist is the varying tempo of the tracks, 
 One of the tracks that will stick out of this playlist is "The First Rebirth" made by Jones & Stephenson, this track lies more in the direction of trance, instead of techno and hardcore. It was released in 1993, which is 30 years earlier than some other tracks in the corpus. Another example of an outlier in the corpus is "Adagio For Strings" made by Tiesto, which is very clearly a trance track, the tempo is lower, it focusses way more on melodic vibes than other tracks in the playlist and is purely instrumental. 
 
 A track that will however not stand out at all, is "The Aftermath" by DYEN, a currently very popular techno track made by a very big name in the current hard techno scene. The way this track is constructed is very similar to most other hard techno being produces nowadays.
+
+WEEK 2
+
+i have decided to use another playlist of mine, since the data from the previous one did not really show anything interresting. The playlist i am using now has about 1500 songs, and is a mixture of hardcore and hardstyle. I think the bigger corpus helps to visualize interesting things.
+
+The plot i made shows the energy of a track, together with the tempo of said track. that and the danceability for the color of the dots. The red line you see is a trendline, which shows quite clearly that a higher tempo results in a higher energy of the track.
