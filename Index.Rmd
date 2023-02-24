@@ -15,7 +15,7 @@ library(hrbrthemes)
 library(compmus)
 
 
-playlist <- get_playlist_audio_features('', '2EUygq17yMPzSbM6XTm4rs') 
+playlist <- readRDS("HardstyleHardcore")
 playlist$release <- as.Date(playlist$track.album.release_date, format = "%Y-%m-%d")
 
 

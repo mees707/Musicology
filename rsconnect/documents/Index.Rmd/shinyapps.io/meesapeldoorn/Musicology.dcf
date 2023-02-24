@@ -1,0 +1,14 @@
+name: Musicology
+title: Musicology
+username:
+account: meesapeldoorn
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 8403942
+bundleId: 6883801
+url: https://meesapeldoorn.shinyapps.io/Musicology/
+when: 1677252699.49726
+lastSyncTime: 1677252699.49727
+asMultiple: TRUE
+asStatic: FALSE
+ignoredFiles: storyboard.Rmd

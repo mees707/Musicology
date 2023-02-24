@@ -1,0 +1,11 @@
+name: index
+title:
+username:
+account: meesapeldoorn
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 8402883
+bundleId: 6883495
+url: https://meesapeldoorn.shinyapps.io/index/
+when: 1677247005.32186
+lastSyncTime: 1677247005.32186
