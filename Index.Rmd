@@ -108,12 +108,10 @@ wood <-
   select(start, duration, pitches)
 ```
 
-
-
-
 ## Column {data-width="650"}
 
 ### Chromagram {data-width="600"}
+
 ```{R}
 wood |>
   mutate(pitches = map(pitches, compmus_normalise, "euclidean")) |>
@@ -133,4 +131,5 @@ wood |>
 ```
 
 ### Info
+
 For the chromagram i decided to pick a track with a very euphoric melody. you can probably see some nice patterns in this graph but i know nothing about music theory so it doesnt really say anything to me
