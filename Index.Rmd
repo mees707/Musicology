@@ -1,68 +1,136 @@
 ---
-title: "Index.Rmd"
-output: html_document
-date: "2023-02-15"
+title: "Musicology"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+runtime: shiny
 ---
 
-```{r Libs}
+```{r global, include=FALSE}
+# load data in 'global' chunk so it can be shared by all users of the dashboard
 library(tidyverse)
 library(spotifyr) 
 library(ggplot2)
 library(hrbrthemes)
-```
+library(compmus)
 
-## Including Plots
 
-assign my spotify playlist to a variable
-
-```{r playlist, echo=FALSE}
 playlist <- get_playlist_audio_features('', '2EUygq17yMPzSbM6XTm4rs') 
-
-
-```
-
-```{r}
 playlist$release <- as.Date(playlist$track.album.release_date, format = "%Y-%m-%d")
 
+
 ```
 
 ```{r}
+# Reactive that returns the whole dataset if there is no brush
+selectedData <- reactive({
+  data <- brushedPoints(playlist, input$plot_brush)
+  if (nrow(data) == 0)
+    data <- playlist
+  data
+})
+```
 
+# Introduction
+
+## Column {data-width="650"}
+
+### Raw data {data-width="600"}
+
+```{r}
 ggplot(playlist, aes(x=release, y=tempo)) +
  geom_point()
 ```
 
-a quick overview of the release date of the tracks in my playlist together with the tempo. One thing to note here is that the tempo of a lot of tracks is wrong. My guess is that spotify thinks the tempo is half of what it should actually be, since the tempo of tracks in my playlist should actually range between 140-200+.
+### Data processing
 
-This together with some of the outliers made before 2015 makes the graph look messy. so i decided to remove every entry from before 2015
+above you see a quick overview of the release date of the tracks in my playlist together with the tempo. One thing to note here is that the tempo of a lot of tracks is wrong. My guess is that spotify thinks the tempo is half of what it should actually be, since the tempo of tracks in my playlist should actually range between 140-200+.
 
-```{r}
+This together with some of the outliers made before 2015 makes the graph look messy. so i decided to remove every entry from before 2015, and multiply every tempo that is lower than 135 by 2, which made the data a lot cleaner as you will see on the Interactive plot page
+
+## Column {data-width="350"}
+
+### Info {data-width="400"}
+
+Fill in when finished, give info about where to see what
+
+# Interactive plot
+
+```{r include=FALSE}
 specified_date <- as.Date("2015-01-01")
 playlist <- playlist[playlist$release >= specified_date,]
 
-ggplot(playlist, aes(x=release, y=tempo)) +
- geom_point()
-```
-
-```{r}
 playlist <- playlist[complete.cases(playlist$tempo), ]
 playlist$tempo[playlist$tempo < 135] <- playlist$tempo[playlist$tempo < 135] * 2
 
-ggplot(playlist, aes(x=release, y=tempo)) +
- geom_point() +
- geom_smooth(method = "lm", color= 'red', se = FALSE)
+playlist <- playlist[, c('track.name', 'tempo', 'energy', 'danceability', 'release')]
 ```
 
-Now that the wrong tempo cases are also adjusted to their actual tempo, the graph already looks a lot better, and something we can actually work with.
+## Column {data-width="650"}
 
-One thing you can immediatly notice is the vast amount of dots at the 150, 155 and 160 range. These are 3 BPMs that are very popular along hardstyle, and therefore mostly used. Also notice the slight increase in tempo over the years. this is something that i woudve expected to see, the genre has getting faster, and the hardstyle being produced nowadays is more of the "raw" kind. While before 2020, it used to be way more medolic and focus less on the speed/hardness of the tracks.
-
-next up, lets look at some more interesting things, lets compare the energy of a track with the tempo of it, and lets throw danceability in there as well.
+### Tempo vs release date (try selecting some tracks) {data-width="600"}
 
 ```{r}
-ggplot(playlist, aes(x=energy, y=tempo, color=danceability)) +
- geom_point() +
-  geom_smooth(method="lm", formula= (y ~ exp(2*x)), se=FALSE, color='red')
+
+renderPlot({
+  ggplot(playlist, aes(x=release, y=tempo)) + geom_point()
+}, outputArgs = list(brush = brushOpts(id = "plot_brush")))
 ```
 
-You can pretty clearly see the correlation between the energy of a track and the tempo of that track. most of the higher tempo's have a higher energy as well.
+### tempo vs energy vs danceability
+
+```{r}
+renderPlot({
+  ggplot(selectedData(), aes(x=energy, y=tempo, color=danceability)) + 
+    geom_point() +
+    geom_smooth(method="lm", formula= (y ~ exp(2*x)), se=FALSE, color='red') +
+    scale_color_gradient(low = "blue", high = "yellow")
+})
+```
+
+## Column {data-width="350"}
+
+### Selected tracks {data-width="400"}
+
+```{r}
+renderTable({
+  selectedData()
+})
+```
+
+# Chroma Features
+
+```{R}
+wood <-
+  get_tidy_audio_analysis("38KNGUbQYgeLrOCgUK8vyx") |>
+  select(segments) |>
+  unnest(segments) |>
+  select(start, duration, pitches)
+```
+
+
+
+
+## Column {data-width="650"}
+
+### Chromagram {data-width="600"}
+```{R}
+wood |>
+  mutate(pitches = map(pitches, compmus_normalise, "euclidean")) |>
+  compmus_gather_chroma() |> 
+  ggplot(
+    aes(
+      x = start + duration / 2,
+      width = duration,
+      y = pitch_class,
+      fill = value
+    )
+  ) +
+  geom_tile() +
+  labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+  theme(aspect.ratio=9/16, legend.position="bottom") +
+  scale_fill_viridis_c()
+```
+
+### Info
+For the chromagram i decided to pick a track with a very euphoric melody. you can probably see some nice patterns in this graph but i know nothing about music theory so it doesnt really say anything to me
