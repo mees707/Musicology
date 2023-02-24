@@ -1,0 +1,64 @@
+---
+title: "Storyboard"
+output: 
+  flexdashboard::flex_dashboard:
+    storyboard: true
+---
+
+```{r}
+library(tidyverse)
+library(spotifyr) 
+library(ggplot2)
+library(hrbrthemes)
+```
+
+```{r}
+playlist <- get_playlist_audio_features('', '2EUygq17yMPzSbM6XTm4rs') 
+playlist$release <- as.Date(playlist$track.album.release_date, format = "%Y-%m-%d")
+
+
+
+
+
+```
+
+### Introduction
+
+Test
+
+```{r}
+
+
+```
+
+### Adjusting the data
+
+```{r}
+ggplot(playlist, aes(x=release, y=tempo)) +
+ geom_point()
+```
+
+a quick overview of the release date of the tracks in my playlist together with the tempo. One thing to note here is that the tempo of a lot of tracks is wrong. My guess is that spotify thinks the tempo is half of what it should actually be, since the tempo of tracks in my playlist should actually range between 140-200+.
+
+This together with some of the outliers made before 2015 makes the graph look messy. so i decided to remove every entry from before 2015, and multiply every tempo that is lower than 135 by 2, which gave me the following:
+
+```{r}
+specified_date <- as.Date("2015-01-01")
+playlist <- playlist[playlist$release >= specified_date,]
+
+playlist <- playlist[complete.cases(playlist$tempo), ]
+playlist$tempo[playlist$tempo < 135] <- playlist$tempo[playlist$tempo < 135] * 2
+
+ggplot(playlist, aes(x=release, y=tempo)) +
+ geom_point()
+```
+
+### Visualizations
+
+```{r}
+ ggplot(playlist, aes(x=energy, y=tempo, color=danceability)) +
+ geom_point() +
+ geom_smooth(method="lm", formula= (y ~ exp(2*x)), se=FALSE, color='red') +
+ scale_color_gradient(low = "blue", high = "yellow") +
+ labs(title = 'correlation between tempo and energy') 
+```

@@ -1,0 +1,70 @@
+---
+title: "Interactieve plots"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+runtime: shiny
+---
+
+```{r global, include=FALSE}
+# load data in 'global' chunk so it can be shared by all users of the dashboard
+library(tidyverse)
+library(spotifyr) 
+library(ggplot2)
+library(hrbrthemes)
+playlist <- get_playlist_audio_features('', '2EUygq17yMPzSbM6XTm4rs') 
+playlist$release <- as.Date(playlist$track.album.release_date, format = "%Y-%m-%d")
+
+specified_date <- as.Date("2015-01-01")
+playlist <- playlist[playlist$release >= specified_date,]
+
+playlist <- playlist[complete.cases(playlist$tempo), ]
+playlist$tempo[playlist$tempo < 135] <- playlist$tempo[playlist$tempo < 135] * 2
+
+playlist <- playlist[, c('track.name', 'tempo', 'energy', 'danceability', 'release')]
+```
+
+
+```{r}
+# Reactive that returns the whole dataset if there is no brush
+selectedData <- reactive({
+  data <- brushedPoints(playlist, input$plot_brush)
+  if (nrow(data) == 0)
+    data <- playlist
+  data
+})
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Tempo vs release date {data-width=600}
+
+```{r}
+
+renderPlot({
+  ggplot(playlist, aes(x=release, y=tempo)) + geom_point()
+}, outputArgs = list(brush = brushOpts(id = "plot_brush")))
+```
+
+### tempo vs energy vs danceability
+
+```{r}
+renderPlot({
+  ggplot(selectedData(), aes(x=energy, y=tempo, color=danceability)) + 
+    geom_point() +
+    geom_smooth(method="lm", formula= (y ~ exp(2*x)), se=FALSE, color='red') +
+    scale_color_gradient(low = "blue", high = "yellow")
+})
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Selected tracks {data-width=400}
+
+```{r}
+renderTable({
+  selectedData()
+})
+```
