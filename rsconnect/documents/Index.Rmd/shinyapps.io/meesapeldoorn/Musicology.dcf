@@ -5,11 +5,10 @@ account: meesapeldoorn
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 8403942
-bundleId: 6883831
+bundleId: 6920764
 url: https://meesapeldoorn.shinyapps.io/Musicology/
-when: 1677253164.10942
-lastSyncTime: 1677253164.10943
+when: 1678097509.17781
+lastSyncTime: 1678097509.17781
 asMultiple: TRUE
 asStatic: FALSE
-additionalFiles: .Renviron
 ignoredFiles: storyboard.Rmd
