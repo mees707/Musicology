@@ -2,6 +2,8 @@
 title: "Musicology"
 output: 
   flexdashboard::flex_dashboard:
+    theme: united
+    vertical_layout: fill
 runtime: shiny
 ---
 
@@ -29,11 +31,107 @@ selectedData <- reactive({
   data
 })
 ```
-Chroma Features {data-orientation=rows}
+
+
+Introduction {data-navmenu="Indroduction" data-icon="ion-ios-home"} 
 ===================================== 
+
+
+Row 
+-------------------------------------
+    
+### What to expect 
+
+Welcome to my musicology storyboard, in which i will be showcasing my own playlist called Hardstyle/Hardcore. This playlist contains over 1500 tracks of solely hardstyle and hardcore. For those that aren't too familiar with electronic music a quick introduction in both scenes:
+
+
+<strong>Hardcore</strong>  is a subgenre of electronic dance music and is characterized by its fast tempo, typically ranging from 160 to 200 beats per minute, and aggressive, distorted sounds. 
+
+Hardcore is often associated with the "gabber" subculture, which originated in Rotterdam in the early 1990s. Electronic music was very new in that era, and hardcore was one of the styles that emerged, along with techno and house and many others.
+
+
+
+<strong>Hardstyle</strong> is basically the small brother of hardcore, that originated in the Netherlands in the early 2000s. It is characterized by a slightly lower tempo than hardcore, typically ranging from 150 to 160 beats per minute , and a hard, distorted kick drum sound. The genre combines elements of hard trance, hard house, and hardcore, as well as some influences from other EDM genres like dubstep and electro.
+
+In addition to the hard, pounding kick drum, hardstyle typically features high-pitched melodies, often played on synthesizers, and a variety of sound effects and samples. The music can be both energetic and aggressive, with an emphasis on creating a high-energy, party atmosphere.
+
+Hardstyle has become a popular EDM genre, with a dedicated fan base and numerous festivals and events dedicated to the genre around the world. Some of the most popular hardstyle artists include Headhunterz, Wildstylez, Brennan Heart, and Coone.
+
+<br>
+These two genres specifically interest me because i have been listening to them for over a decade already, and this playlist is a collection of my favorite tracks that i have gathered over the past 5 years. I also visit a lot of festivals with mainly hardstyle and hardcore, something about this music just makes it way more fun to listen to and to party to than any other genre i have ever listened to.
+
+<!-- <iframe style="border-radius:12px" -->
+<!-- src="https://open.spotify.com/embed/playlist/2EUygq17yMPzSbM6XTm4rs?utm_source=generator" -->
+<!-- width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; -->
+<!-- clipboard-write; encrypted-media; fullscreen; picture-in-picture" -->
+<!-- loading="lazy"></iframe> -->
+
+Row {.tabset .tabset-fade}
+-------------------------------------
+   
+### Phuture Noize
+
+Phuture Noize is currently one of my favorite hardstyle producers, he consistantly releases original and refreshing music. over the last 6 years the man has released 5 albums, all of great quality and each one is different than the other. 
+<!-- <iframe style="border-radius:12px"
+src="https://open.spotify.com/embed/album/1EwZ1JlLnsa8K74n4FDI27" width="100%"
+height="352" frameBorder="0" allowfullscreen="" allow="autoplay;
+clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+loading="lazy"></iframe> -->
+
+<strong> I Raise My Glass</strong>  is one of the track of Phuture Noize's upcoming album "From Star To Stardust", which is not released in its entirety as of making this storyboard. I have chosen to show this track specificaly because i think it is one of the better made hardstyle tracks in quite some time. After hearing it live in Tilburg 013 last month at Phuture noize's album release party, it felt like a track i had to share. 
+
+
+<!-- <iframe style="border-radius:12px"
+src="https://open.spotify.com/embed/album/7CmHIfD13DRMeGCTfasqhP?utm_source=generator"
+width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay;
+clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+loading="lazy"></iframe> -->
+
+<strong>The pursuit</strong> is a bit older than the previous, but by many it is regarded as his best album yet released. It is a bit rougher, edgier and rawer than the music me makes nowadays, but this is something i am quite a fan of. my personal favorite track of this album is "Phuture Noize - Fire". I have had some great memories at festivals where you would have a completely packed venue with each and everyone inside singing along with the melody, sometimes being even louder than the music itself.
+ 
+### Mad Dog
+    
+Mad Dog is one of the most innovative hardcore Producers out there, being praised by many, including myself, as a fresh breath of air in a otherwise stale genre. hardcore has this plague of low efford producers ruining what used to be a great genre, however Mad Dog is bringing hardcore back to what it is supposed to be.
+
+<!-- <iframe style="border-radius:12px" src="https://open.spotify.com/embed/album/2E8RtCz8fCf6mQv6vFMvLl" width="100%" height="400" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe> -->
+<strong>DOWNTEMPO</strong> is the latest album released by mad dog, and in my opinion, the best hardcore album that has been released in years. The name of the album already says something about the album, The tempo is a lot slower than a lot of the hardcore being produces nowadays. Hardcore has been getting faster and faster to a point where most songs are 200+ BPM, which is a move in the wrong direction in my opinion, Mad Dog thought the same way and now released this album which ranges between 145 to 175. The album is representing an older form of hardcore, closer to its roots. "Mad Dog - Energy 1996" is a great example and it does indeed sound like hardcore from 1996 but with the production quality of 2023.
+
+Data processing {data-navmenu="Indroduction" data-icon="fa-list" data-orientation="rows"}
+===================================== 
+
+Column {data-width="800"}
+-------------------------------------
+    
+### Chart 1
+```{r}
+
+
+playlist$threshold <- ifelse(playlist$tempo < 135 | playlist$release < '2015-1-1', "Below", "Above")
+
+ggplot(playlist, aes(x = release, y = tempo, color = threshold)) + 
+  geom_point() +
+  scale_color_manual(values = c("black", "red")) +
+  theme(aspect.ratio=9/16, legend.position="bottom")
+```   
+
+   
+Column {data-width="350"}
+-------------------------------------
+   
+### Chart 2
+
+
+above you see a quick overview of the release date of the tracks in my playlist together with the tempo. Something that is quite interesting to see is that a lot of the tempo data is not acurate. As i have said in the introduction, hardstyle and hardcore usually start at 150 BPM, and in the graph above, you can see that there is quite a few entries that are below that (marked in red). My guess is that spotify thinks the tempo is half of what it should actually be, which is a common occurence not only with spotify, but also with DJing software like rekordbox. I dont really understand why this happens sometimes, but luckily it is quite easy to fix by simply multiplying all wrong values by 2. As a threshold i have chosen a BPM of 135, since this seems to have caught all errors (as you can see by looking at the red dots).
+
+The other thing that was bothering me was the small amount of releases before 2015, all they did was compress all data which made the graph difficult to read, so i decided to select these too and remove them.
+
+
+Chroma features  {data-navmenu="visualizations"}
+===================================== 
+
 ```{R}
 wood <-
-  get_tidy_audio_analysis("38KNGUbQYgeLrOCgUK8vyx") |>
+  get_tidy_audio_analysis("5qpd9dnhtOojDgdA29BhfO") |>
   compmus_align(bars, segments) |>                     # Change `bars`
   select(bars) |>                                      #   in all three
   unnest(bars) |>                                      #   of these lines.
@@ -55,150 +153,9 @@ wood <-
 
 
 
-Row {data-height=600} {data-orientation=columns} 
--------------------------------------
-
-### chromatograph {data-width="650"} 
-
-```{r}
-wood |>
-  mutate(pitches = map(pitches, compmus_normalise, "euclidean")) |>
-  compmus_gather_chroma() |> 
-  ggplot(
-    aes(
-      x = start + duration / 2,
-      width = duration,
-      y = pitch_class,
-      fill = value
-    )
-  ) +
-  geom_tile() +
-  labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
-  theme(aspect.ratio=9/16, legend.position="bottom") +
-  scale_fill_viridis_c()
-
-```
-
-### info {data-width="350"}
-you can see that the B, F and C are the most common notes being played. At around 3 minutes there is an increase in B, which you can also hear in the track itself, my guess is that the higher magnitute is because of the so called "kickdrum" being played at the drop of the track, and at around 3 minutes you can hear that it stays pitched the same for a bit. \ 
- 
-
-below you can also see two self similarity matrixes of the same track as before, one for timbre and one for chroma. for me the chroma chart looks especially interesting because of the two distinct lines ytou see running through the graph.
-
-Row {data-height=400}
--------------------------------------
-   
-### timbre
-
-```{r}
-
-wood |>
-  compmus_self_similarity(timbre, "cosine") |> 
-  ggplot(
-    aes(
-      x = xstart + xduration / 2,
-      width = xduration,
-      y = ystart + yduration / 2,
-      height = yduration,
-      fill = d
-    )
-  ) +
-  geom_tile() +
-  coord_fixed() +
-  scale_fill_viridis_c(guide = "none") +
-  theme_classic() +
-  labs(x = "", y = "")
-```
- 
-    
-### pitches
-
-```{r}
-wood |>
-  compmus_self_similarity(pitches, "cosine") |> 
-  ggplot(
-    aes(
-      x = xstart + xduration / 2,
-      width = xduration,
-      y = ystart + yduration / 2,
-      height = yduration,
-      fill = d
-    )
-  ) +
-  geom_tile() +
-  coord_fixed() +
-  scale_fill_viridis_c(guide = "none") +
-  theme_classic() +
-  labs(x = "", y = "")
-```
 
 
- Introduction
+
+
+conclusion
 ===================================== 
-## Column {data-width="650"}
-
-### Raw data {data-width="600"}
-
-```{r}
-ggplot(playlist, aes(x=release, y=tempo)) +
- geom_point()
-```
-
-### Data processing
-
-above you see a quick overview of the release date of the tracks in my playlist together with the tempo. One thing to note here is that the tempo of a lot of tracks is wrong. My guess is that spotify thinks the tempo is half of what it should actually be, since the tempo of tracks in my playlist should actually range between 140-200+.
-
-This together with some of the outliers made before 2015 makes the graph look messy. so i decided to remove every entry from before 2015, and multiply every tempo that is lower than 135 by 2, which made the data a lot cleaner as you will see on the Interactive plot page
-
-## Column {data-width="350"}
-
-### Info {data-width="400"}
-
-Fill in when finished, give info about where to see what
-
-# Interactive plot
-
-```{r include=FALSE}
-specified_date <- as.Date("2015-01-01")
-playlist <- playlist[playlist$release >= specified_date,]
-
-playlist <- playlist[complete.cases(playlist$tempo), ]
-playlist$tempo[playlist$tempo < 135] <- playlist$tempo[playlist$tempo < 135] * 2
-
-playlist <- playlist[, c('track.name', 'tempo', 'energy', 'danceability', 'release')]
-```
-
-## Column {data-width="650"}
-
-### Tempo vs release date (try selecting some tracks) {data-width="600"}
-
-```{r}
-
-renderPlot({
-  ggplot(playlist, aes(x=release, y=tempo)) + geom_point()
-}, outputArgs = list(brush = brushOpts(id = "plot_brush")))
-```
-
-### tempo vs energy vs danceability
-
-```{r}
-renderPlot({
-  ggplot(selectedData(), aes(x=energy, y=tempo, color=danceability)) + 
-    geom_point() +
-    geom_smooth(method="lm", formula= (y ~ exp(2*x)), se=FALSE, color='red') +
-    scale_color_gradient(low = "blue", high = "yellow")
-})
-```
-
-## Column {data-width="350"}
-
-### Selected tracks {data-width="400"}
-
-```{r}
-renderTable({
-  selectedData()
-})
-```
-
-
-
