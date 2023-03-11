@@ -1,10 +1,12 @@
 ---
 title: "Musicology"
-output: 
+output:
   flexdashboard::flex_dashboard:
     theme: united
     vertical_layout: fill
 runtime: shiny
+resource_files:
+- .Renviron
 ---
 
 ```{r global, include=FALSE}
@@ -60,11 +62,11 @@ Hardstyle has become a popular EDM genre, with a dedicated fan base and numerous
 <br>
 These two genres specifically interest me because i have been listening to them for over a decade already, and this playlist is a collection of my favorite tracks that i have gathered over the past 5 years. I also visit a lot of festivals with mainly hardstyle and hardcore, something about this music just makes it way more fun to listen to and to party to than any other genre i have ever listened to.
 
-<!-- <iframe style="border-radius:12px" -->
-<!-- src="https://open.spotify.com/embed/playlist/2EUygq17yMPzSbM6XTm4rs?utm_source=generator" -->
-<!-- width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; -->
-<!-- clipboard-write; encrypted-media; fullscreen; picture-in-picture" -->
-<!-- loading="lazy"></iframe> -->
+<iframe style="border-radius:12px"
+src="https://open.spotify.com/embed/playlist/2EUygq17yMPzSbM6XTm4rs?utm_source=generator"
+width="70%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay;
+clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+loading="lazy"></iframe>
 
 Row {.tabset .tabset-fade}
 -------------------------------------
@@ -72,20 +74,20 @@ Row {.tabset .tabset-fade}
 ### Phuture Noize
 
 Phuture Noize is currently one of my favorite hardstyle producers, he consistantly releases original and refreshing music. over the last 6 years the man has released 5 albums, all of great quality and each one is different than the other. 
-<!-- <iframe style="border-radius:12px"
-src="https://open.spotify.com/embed/album/1EwZ1JlLnsa8K74n4FDI27" width="100%"
+ <iframe style="border-radius:12px"
+src="https://open.spotify.com/embed/album/1EwZ1JlLnsa8K74n4FDI27" width="70%"
 height="352" frameBorder="0" allowfullscreen="" allow="autoplay;
 clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-loading="lazy"></iframe> -->
+loading="lazy"></iframe> 
 
 <strong> I Raise My Glass</strong>  is one of the track of Phuture Noize's upcoming album "From Star To Stardust", which is not released in its entirety as of making this storyboard. I have chosen to show this track specificaly because i think it is one of the better made hardstyle tracks in quite some time. After hearing it live in Tilburg 013 last month at Phuture noize's album release party, it felt like a track i had to share. 
 
 
-<!-- <iframe style="border-radius:12px"
+<iframe style="border-radius:12px"
 src="https://open.spotify.com/embed/album/7CmHIfD13DRMeGCTfasqhP?utm_source=generator"
-width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay;
+width="70%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay;
 clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-loading="lazy"></iframe> -->
+loading="lazy"></iframe> 
 
 <strong>The pursuit</strong> is a bit older than the previous, but by many it is regarded as his best album yet released. It is a bit rougher, edgier and rawer than the music me makes nowadays, but this is something i am quite a fan of. my personal favorite track of this album is "Phuture Noize - Fire". I have had some great memories at festivals where you would have a completely packed venue with each and everyone inside singing along with the melody, sometimes being even louder than the music itself.
  
@@ -93,16 +95,18 @@ loading="lazy"></iframe> -->
     
 Mad Dog is one of the most innovative hardcore Producers out there, being praised by many, including myself, as a fresh breath of air in a otherwise stale genre. hardcore has this plague of low efford producers ruining what used to be a great genre, however Mad Dog is bringing hardcore back to what it is supposed to be.
 
-<!-- <iframe style="border-radius:12px" src="https://open.spotify.com/embed/album/2E8RtCz8fCf6mQv6vFMvLl" width="100%" height="400" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe> -->
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/album/2E8RtCz8fCf6mQv6vFMvLl" width="70%" height="400" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+
 <strong>DOWNTEMPO</strong> is the latest album released by mad dog, and in my opinion, the best hardcore album that has been released in years. The name of the album already says something about the album, The tempo is a lot slower than a lot of the hardcore being produces nowadays. Hardcore has been getting faster and faster to a point where most songs are 200+ BPM, which is a move in the wrong direction in my opinion, Mad Dog thought the same way and now released this album which ranges between 145 to 175. The album is representing an older form of hardcore, closer to its roots. "Mad Dog - Energy 1996" is a great example and it does indeed sound like hardcore from 1996 but with the production quality of 2023.
 
 Data processing {data-navmenu="Indroduction" data-icon="fa-list" data-orientation="rows"}
 ===================================== 
 
-Column {data-width="800"}
+Row {data-width="800"}
 -------------------------------------
     
-### Chart 1
+### Raw data
 ```{r}
 
 
@@ -115,10 +119,10 @@ ggplot(playlist, aes(x = release, y = tempo, color = threshold)) +
 ```   
 
    
-Column {data-width="350"}
+Row {data-width="350"}
 -------------------------------------
    
-### Chart 2
+### info
 
 
 above you see a quick overview of the release date of the tracks in my playlist together with the tempo. Something that is quite interesting to see is that a lot of the tempo data is not acurate. As i have said in the introduction, hardstyle and hardcore usually start at 150 BPM, and in the graph above, you can see that there is quite a few entries that are below that (marked in red). My guess is that spotify thinks the tempo is half of what it should actually be, which is a common occurence not only with spotify, but also with DJing software like rekordbox. I dont really understand why this happens sometimes, but luckily it is quite easy to fix by simply multiplying all wrong values by 2. As a threshold i have chosen a BPM of 135, since this seems to have caught all errors (as you can see by looking at the red dots).
@@ -126,34 +130,154 @@ above you see a quick overview of the release date of the tracks in my playlist 
 The other thing that was bothering me was the small amount of releases before 2015, all they did was compress all data which made the graph difficult to read, so i decided to select these too and remove them.
 
 
-Chroma features  {data-navmenu="visualizations"}
+Chroma features: I Raise My Glass  {data-navmenu="visualizations" data-orientation=rows}
 ===================================== 
 
-```{R}
-wood <-
-  get_tidy_audio_analysis("5qpd9dnhtOojDgdA29BhfO") |>
-  compmus_align(bars, segments) |>                     # Change `bars`
-  select(bars) |>                                      #   in all three
-  unnest(bars) |>                                      #   of these lines.
-  mutate(
-    pitches =
-      map(segments,
-        compmus_summarise, pitches,
-        method = "rms", norm = "euclidean"              # Change summary & norm.
-      )
-  ) |>
-  mutate(
-    timbre =
-      map(segments,
-        compmus_summarise, timbre,
-        method = "rms", norm = "euclidean"              # Change summary & norm.
-      )
-  )
+
+
+Row {data-height=600} {data-orientation=columns}
+-------------------------------------
+
+### chromatograph {data-width="750"}
+
+```{r picture1, echo = F,  out.width = '100%'}
+knitr::include_graphics("IRaiseMyGlassChroma.png")
+```
+
+### info {data-width="250"}
+These are the Chroma feature plots for one of the tracks I introduced you to in the introduction. you can see that in the beginning, it is all a bit blurry because in that part of the song, you only hear singing. 
+
+However after the intro, the synths start playing and this is very noticable on the chromatograph. you can clearly see the structure of the melody and which notes play a key role.
+
+Then at about the 1 minute 20 mark it all gets a bit blurry again because this is the point in the song at which the drop starts, all instruments playing at once complimented with a powerful kickdrum.
+
+This repeats itself once with a slightly different melody as is also nicely visible in the chromatogram. 
+
+<iframe style="border-radius:12px"
+src="https://open.spotify.com/embed/album/1EwZ1JlLnsa8K74n4FDI27" width="100%"
+height="352" frameBorder="0" allowfullscreen="" allow="autoplay;
+clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+loading="lazy"></iframe> 
+
+Below you can also see the timbre and pitches self similarity matrix that belong to the track. 
+
+Row {data-height=400 }
+-------------------------------------
+
+
+### timbre
+
+```{r picture2, echo = F, out.width = '100%'}
+knitr::include_graphics("IRaiseMyGlassTimbre.png")
+```
+
+### pitches
+
+```{r picture3, echo = F,  out.width = '100%'}
+knitr::include_graphics("IRaiseMyGlassPitches.png")
+```
+
+### cordogram
+
+```{r picture4, echo = F,  out.width = '100%'}
+knitr::include_graphics("IRaiseMyGlassChordogram.png")
+```
+
+Chroma features: Energy 1996  {data-navmenu="visualizations" data-orientation=rows}
+===================================== 
+
+
+
+Row {data-height=600} {data-orientation=columns}
+-------------------------------------
+
+### chromatograph {data-width="750"}
+
+```{r picture1a, echo = F,  out.width = '100%'}
+knitr::include_graphics("Energy1996Chroma.png")
+```
+
+### info {data-width="250"}
+These are the Chroma feature plots for one of the other tracks I introduced you to in the introduction. 
+
+It is quite interesting to see that this chromatogram is a lot more blurry and you cant really clearly see whats going on. I think this is because the flow of the track is a lot more subtle than the other track, and the kickdrum is used a lot more than in the hardstyle track.
+
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/1MWIbl57FGTaaR5utmIMuW?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+Below you can also see the timbre and pitches self similarity matrix that belong to the track. These do look very interesting to me, a few very distinct lines in an otherwise nearly empty plot. I dont really know what causes this but it is interesting to look at.
+
+Row {data-height=400 }
+-------------------------------------
+
+
+### timbre
+```{r picture2a, echo = F, out.width = '100%'}
+knitr::include_graphics("Energy1996Timbre.png")
+```
+
+### pitches
+
+```{r picture3a, echo = F,  out.width = '100%'}
+knitr::include_graphics("Energy1996Pitches.png")
+```
+
+### cordogram
+
+```{r picture4a, echo = F,  out.width = '100%'}
+knitr::include_graphics("IRaiseMyGlassChordogram.png")
 ```
 
 
+Complete playlist: tempo vs energy vs danceability {data-navmenu="visualizations"}
+===================================== 
+
+```{r include=FALSE}
+specified_date <- as.Date("2015-01-01")
+playlist <- playlist[playlist$release >= specified_date,]
+
+playlist <- playlist[complete.cases(playlist$tempo), ]
+playlist$tempo[playlist$tempo < 135] <- playlist$tempo[playlist$tempo < 135] * 2
+
+playlist <- playlist[, c('track.name', 'tempo', 'energy', 'danceability', 'release', 'mode_name')]
+```
+
+## Column {data-width="650"}
+
+### Tempo vs release date (try selecting some tracks) {data-width="600"}
+
+```{r}
+
+renderPlot({
+  ggplot(playlist, aes(x=release, y=tempo, color=mode_name)) + 
+    geom_point() +
+    scale_color_manual(values = c("red", "green")) 
+}, outputArgs = list(brush = brushOpts(id = "plot_brush")))
+```
+
+### tempo vs energy vs danceability
+
+```{r}
+renderPlot({
+  ggplot(selectedData(), aes(x=energy, y=tempo, color=danceability)) +
+    geom_point() +
+    geom_smooth(method="lm", formula= (y ~ exp(2*x)), se=FALSE, color='red') +
+    scale_color_gradient(low = "blue", high = "yellow")
+})
+```
+
+## Column {data-width="350"}
+
+### Selected tracks {data-width="400"}
+
+```{r}
+renderTable({
+  selectedData()
+})
+```
 
 
+3rd thing  {data-navmenu="visualizations"}
+===================================== 
 
 
 
